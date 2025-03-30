@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f4f4f9, #e0f7fa);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .homepage-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .homepage-box {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 2.5rem;
+            margin: 0 0 20px 0;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .homepage-box p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #555;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        button:hover { background-color: #45a049; transform: scale(1.05); }
+        button:active { transform: scale(0.95); }
+
+        .table-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .table-title {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            color: #2196F3;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .table-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .vertical-rectangle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 0 5px;
+        }
+
+        .vertical-rectangle h3 {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .vertical-rectangle table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .vertical-rectangle td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .vertical-rectangle td:hover { background-color: #f1f1f1; }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            margin: 20px auto;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .challenge-box h2 {
+            color: #2196F3;
+            font-size: 1.8rem;
+            margin: 0 0 20px 0;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .challenge-box p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .challenge-box .instructions {
+            font-size: 1rem;
+            color: #555;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .challenge-box .instructions ul {
+            padding-left: 20px;
+        }
+
+        .challenge-box .instructions li {
+            margin: 10px 0;
+        }
+
+        .challenge-box .choices {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .challenge-box .choices button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e91e63;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .team-container {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .team-container h2 {
+            color: #2196F3;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 220px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+
+        .team-member .age {
+            color: #666;
+            font-style: italic;
+        }
+
+        .team-member .bio {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-media a {
+            color: white;
+            background-color: #2196F3;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .social-media a:hover {
+            background-color: #1976D2;
+        }
+
+        footer {
+            background-color: #000000;
+            color: white;
+            padding: 15px 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .vertical-rectangle { 
+                width: 100px; 
+            }
+            .vertical-rectangle td { 
+                font-size: 0.8rem; 
+                padding: 8px; 
+            }
+            .vertical-rectangle h3 {
+                font-size: 1rem;
+                padding: 8px;
+            }
+            h1 { font-size: 2rem; }
+            button { font-size: 1rem; padding: 10px 20px; }
+            .homepage-box { padding: 30px; }
+            .team-members {
+                flex-direction: column;
+                align-items: center;
+            }
+            .table-row {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="homepage-container">
+        <div class="homepage-box" id="homepageBox">
+            <h1>Multiplication Master</h1>
+            <p>Welcome to our interactive multiplication learning platform! This website was created to help students of all ages master their multiplication tables through engaging visual tools and fun challenges. Click the button below to explore the multiplication tables and test your skills with our timed challenge game!</p>
+            <button onclick="showTable()">Explore Multiplication Tables</button>
+        </div>
+    </div>
+
+    <div class="table-container" id="tableContainer">
+        <h2 class="table-title">Multiplication Tables</h2>
+    </div>
+
+    <div class="challenge-box" id="challengeBox">
+        <h2>Challenge Time!</h2>
+        <p>Do you want to test your multiplication skills?</p>
+        <div class="instructions">
+            <p><strong>How to Play:</strong></p>
+            <ul>
+                <li>You will be given a multiplication question with 3 choices</li>
+                <li>You have <strong>3 seconds</strong> to answer each question</li>
+                <li>Correct answer: <strong>+10 points</strong></li>
+                <li>Wrong answer or timeout: <strong>-1 life</strong></li>
+                <li>You start with <strong>3 lives</strong></li>
+                <li>If you lose all lives, the game ends</li>
+            </ul>
+        </div>
+        <button onclick="startChallenge()">Start Challenge</button>
+    </div>
+
+    <div class="challenge-box" id="gameBox" style="display: none;">
+        <h2>Multiplication Challenge</h2>
+        <p id="question"></p>
+        <div class="choices" id="choices"></div>
+        <p id="result"></p>
+        <p>Lives: <span id="lives">3</span></p>
+        <p>Score: <span id="score">0</span></p>
+        <p>High Score: <span id="highScore">0</span></p>
+        <p class="timer">Time left: <span id="timer">3</span>s</p>
+    </div>
+
+    <div class="team-container" id="teamContainer">
+        <h2>Mai-Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <h3>Sebastian Cezar</h3>
+                <p class="age">Age: 15</p>
+                <p class="bio">2:46, Sa Bawat Sandali by Amiel Sol</p>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/sebastian.cezar.2024" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/sevvczr/" target="_blank">Instagram</a>
+                    <a href="mailto:example@example.com">Gmail</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Marq Jonel Gonowon</h3>
+                <p class="age">Age: 16</p>
+                <p class="bio">Study First</p>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/marq.jonel.5/" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/mrqjonel/" target="_blank">Instagram</a>
+                    <a href="mailto:example@example.com">Gmail</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Penelope Aubrey Espiritu</h3>
+                <p class="age">Age: 16</p>
+                <p class="bio">Temporary Closed</p>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/penelopeaudrey08" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/audrsz/" target="_blank">Instagram</a>
+                    <a href="mailto:example@example.com">Gmail</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <h3>Sola Hirato</h3>
+                <p class="age">Age: 15</p>
+                <p class="bio">Japanese Cutie ng Iriga City</p>
+                <div class="social-media">
+                    <a href="https://www.facebook.com/solauhh" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/wsoxlla/" target="_blank">Instagram</a>
+                    <a href="mailto:example@example.com">Gmail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Multiplication Table Website
+    </footer>
+
+    <script>
+        let lives = 3;
+        let score = 0;
+        let highScore = 0;
+        let timer;
+        let timeLeft = 3;
+
+        function showTable() {
+            document.getElementById('homepageBox').querySelector('button').style.display = 'none';
+            document.getElementById('tableContainer').style.display = 'flex';
+            document.getElementById('teamContainer').style.display = 'block';
+            
+            var container = document.getElementById('tableContainer');
+            
+            while (container.childNodes.length > 1) {
+                container.removeChild(container.lastChild);
+            }
+
+            var row1 = document.createElement('div');
+            row1.className = 'table-row';
+            container.appendChild(row1);
+            for (let i = 1; i <= 4; i++) {
+                createTable(i, row1);
+            }
+
+            var row2 = document.createElement('div');
+            row2.className = 'table-row';
+            container.appendChild(row2);
+            for (let i = 5; i <= 8; i++) {
+                createTable(i, row2);
+            }
+
+            var row3 = document.createElement('div');
+            row3.className = 'table-row';
+            row3.style.gap = '40px'; 
+            container.appendChild(row3);
+            for (let i = 9; i <= 10; i++) {
+                createTable(i, row3);
+            }
+
+            document.getElementById('challengeBox').style.display = 'block';
+        }
+
+        function createTable(number, row) {
+            var div = document.createElement('div');
+            div.classList.add('vertical-rectangle');
+            div.innerHTML = '<h3>' + number + '</h3><table id="table' + number + '"></table>';
+            row.appendChild(div);
+
+            var table = document.getElementById('table' + number);
+            for (var j = 1; j <= 10; j++) {
+                var row = table.insertRow();
+                var cell = row.insertCell();
+                cell.textContent = number + ' × ' + j;
+                cell.dataset.answer = ' = ' + (number * j);
+                cell.dataset.showing = "false";
+
+                cell.onclick = function() {
+                    if (this.dataset.showing === "false") {
+                        this.textContent += this.dataset.answer;
+                        this.dataset.showing = "true";
+                    } else {
+                        this.textContent = this.textContent.split(" =")[0];
+                        this.dataset.showing = "false";
+                    }
+                };
+            }
+        }
+
+        function startChallenge() {
+            document.getElementById('challengeBox').style.display = 'none';
+            document.getElementById('gameBox').style.display = 'block';
+            generateQuestion();
+        }
+
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const correctAnswer = num1 * num2;
+
+            const wrongAnswer1 = correctAnswer + Math.floor(Math.random() * 5) + 1;
+            const wrongAnswer2 = correctAnswer - Math.floor(Math.random() * 5) + 1;
+
+            const answers = [correctAnswer, wrongAnswer1, wrongAnswer2].sort(() => Math.random() - 0.5);
+
+            document.getElementById('question').textContent = `${num1} × ${num2} = ?`;
+
+            const choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = '';
+            answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.textContent = answer;
+                button.onclick = () => checkAnswer(answer, correctAnswer);
+                choicesDiv.appendChild(button);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timeLeft = 3;
+            document.getElementById('timer').textContent = timeLeft;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleTimeout() {
+            lives--;
+            document.getElementById('result').textContent = "Time's up! -1 life";
+            document.getElementById('lives').textContent = lives;
+
+            if (lives === 0) {
+                endGame();
+            } else {
+                generateQuestion();
+            }
+        }
+
+        function checkAnswer(selectedAnswer, correctAnswer) {
+            clearInterval(timer);
+
+            if (selectedAnswer === correctAnswer) {
+                score += 10;
+                document.getElementById('result').textContent = 'Correct! +10 points';
+            } else {
+                lives--;
+                document.getElementById('result').textContent = 'Wrong! -1 life';
+            }
+
+            document.getElementById('lives').textContent = lives;
+            document.getElementById('score').textContent = score;
+
+            if (lives === 0) {
+                endGame();
+            } else {
+                generateQuestion();
+            }
+        }
+
+        function endGame() {
+            if (score > highScore) {
+                highScore = score;
+            }
+            document.getElementById('highScore').textContent = highScore;
+            alert(`Game Over! Your score: ${score}. High Score: ${highScore}`);
+            resetGame();
+        }
+
+        function resetGame() {
+            lives = 3;
+            score = 0;
+            document.getElementById('lives').textContent = lives;
+            document.getElementById('score').textContent = score;
+            document.getElementById('gameBox').style.display = 'none';
+            document.getElementById('challengeBox').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
